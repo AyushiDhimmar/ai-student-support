@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - AI Student Support System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">🎓 AI Student Support</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/analyze">Get Started</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <h1 class="display-4">About Our Project</h1>
+                <p class="lead text-muted">An AI-powered agentic system for personalized learning</p>
+            </div>
+
+            <!-- Mission Card -->
+            <div class="card mb-4 shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">🎯 Our Mission</h3>
+                </div>
+                <div class="card-body">
+                    <p class="lead">
+                        To democratize access to personalized educational guidance through AI, helping every student 
+                        identify their learning gaps, create effective study plans, and make informed career decisions.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Problem & Solution -->
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100 shadow">
+                        <div class="card-header bg-danger text-white">
+                            <h4 class="mb-0">❌ The Problem</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li class="mb-2">Students struggle to identify their learning gaps systematically</li>
+                                <li class="mb-2">Lack of personalized study plans based on individual needs</li>
+                                <li class="mb-2">Limited access to career guidance in regional areas</li>
+                                <li class="mb-2">Generic study approaches don't account for unique strengths and weaknesses</li>
+                                <li class="mb-2">Time wasted on subjects already mastered</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100 shadow">
+                        <div class="card-header bg-success text-white">
+                            <h4 class="mb-0">✅ Our Solution</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li class="mb-2"><strong>AI Learning Gap Analyzer:</strong> Identifies weak and strong areas using machine learning</li>
+                                <li class="mb-2"><strong>Smart Study Planner:</strong> Creates personalized weekly schedules based on your gaps</li>
+                                <li class="mb-2"><strong>Career Direction:</strong> Suggests careers aligned with your strengths</li>
+                                <li class="mb-2"><strong>24/7 Accessibility:</strong> Available anytime, anywhere</li>
+                                <li class="mb-2"><strong>Free to Use:</strong> No cost for students</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="card mb-4 shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">🔧 How It Works</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3">
+                                <div class="display-4 mb-3">📝</div>
+                                <h5>Step 1: Input Data</h5>
+                                <p class="text-muted">Enter your subject-wise marks</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3">
+                                <div class="display-4 mb-3">🤖</div>
+                                <h5>Step 2: AI Analysis</h5>
+                                <p class="text-muted">Our ML model analyzes your performance patterns</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3">
+                                <div class="display-4 mb-3">📊</div>
+                                <h5>Step 3: Get Insights</h5>
+                                <p class="text-muted">Receive detailed gap analysis and visualizations</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3">
+                                <div class="display-4 mb-3">🎯</div>
+                                <h5>Step 4: Take Action</h5>
+                                <p class="text-muted">Follow your personalized study plan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Agent Principles -->
+            <div class="card mb-4 shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">🧠 AI Agent Principles</h3>
+                </div>
+                <div class="card-body">
+                    <p class="mb-3">Our system exhibits true agentic AI behavior:</p>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5>👁️ Observation</h5>
+                                    <p class="mb-0">Automatically analyzes student performance data and identifies patterns</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5>📋 Planning</h5>
+                                    <p class="mb-0">Creates targeted improvement strategies based on identified gaps</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5>⚡ Execution</h5>
+                                    <p class="mb-0">Delivers actionable recommendations and personalized schedules</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5>🔄 Adaptation</h5>
+                                    <p class="mb-0">Adjusts recommendations based on student strengths and weaknesses</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team -->
+            <div class="card mb-4 shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">👥 Our Team</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <div class="display-4 mb-3">👤</div>
+                                    <h5>Team Leader</h5>
+                                    <p class="text-muted mb-0">Shukla Aastha</p>
+                                    <small class="text-muted">GEC MOdasa - IT - 2026</small>
+                                    <p class="mt-2">Backend Development & ML</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <div class="display-4 mb-3">👤</div>
+                                    <h5>Team Member</h5>
+                                    <p class="text-muted mb-0">Dhimmar Ayushi</p>
+                                    <small class="text-muted">GEC Modasa - CE - 2026</small>
+                                    <p class="mt-2">Frontend Development & Documentation</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact -->
+            <div class="card mb-4 shadow">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">🌟 Expected Impact</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3 text-center">
+                            <div class="display-4 text-primary mb-2">📚</div>
+                            <h5>Student Level</h5>
+                            <p>Better self-awareness, improved study efficiency, informed career choices</p>
+                        </div>
+                        <div class="col-md-4 mb-3 text-center">
+                            <div class="display-4 text-primary mb-2">🏫</div>
+                            <h5>Institutional Level</h5>
+                            <p>Data-driven insights for educators, better resource allocation</p>
+                        </div>
+                        <div class="col-md-4 mb-3 text-center">
+                            <div class="display-4 text-primary mb-2">🌍</div>
+                            <h5>Societal Level</h5>
+                            <p>Democratized AI access, reduced education inequality</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Future Roadmap -->
+            <div class="card mb-4 shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">🚀 Future Roadmap</h3>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        <div class="mb-3">
+                            <h5>Phase 1 (Current)</h5>
+                            <ul>
+                                <li>Web application for engineering students</li>
+                                <li>6 core subjects analysis</li>
+                                <li>Basic ML algorithms</li>
+                            </ul>
+                        </div>
+                        <div class="mb-3">
+                            <h5>Phase 2 (3-6 months)</h5>
+                            <ul>
+                                <li>Mobile app development</li>
+                                <li>15+ subjects support</li>
+                                <li>Advanced ML models</li>
+                                <li>Multi-language support</li>
+                            </ul>
+                        </div>
+                        <div class="mb-3">
+                            <h5>Phase 3 (6-12 months)</h5>
+                            <ul>
+                                <li>AI chatbot for doubt clearing</li>
+                                <li>Video content recommendations</li>
+                                <li>Peer learning network</li>
+                                <li>Parent/teacher dashboard</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>Phase 4 (1-2 years)</h5>
+                            <ul>
+                                <li>Scale to schools (8th-12th grade)</li>
+                                <li>Government integration for rural areas</li>
+                                <li>Advanced career counseling</li>
+                                <li>Industry partnerships</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alignment with IndiaAI Mission -->
+            <div class="card mb-4 shadow">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">🇮🇳 Alignment with IndiaAI Mission</h3>
+                </div>
+                <div class="card-body">
+                    <p>Our project directly supports India's AI mission by:</p>
+                    <ul>
+                        <li><strong>AI for All:</strong> Making AI tools accessible to students across India</li>
+                        <li><strong>Skill Development:</strong> Promoting AI literacy and computational thinking</li>
+                        <li><strong>Social Impact:</strong> Reducing educational inequality through technology</li>
+                        <li><strong>Innovation:</strong> Encouraging AI adoption in the education sector</li>
+                        <li><strong>Future Readiness:</strong> Preparing students for AI-driven economy</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="text-center mb-4">
+                <h3 class="mb-3">Ready to improve your learning journey?</h3>
+                <a href="/analyze" class="btn btn-primary btn-lg me-2">Get Started Now</a>
+                <a href="/" class="btn btn-outline-primary btn-lg">Back to Home</a>
+            </div>
+
+            <!-- Contact -->
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">📧 Contact Us</h3>
+                </div>
+                <div class="card-body">
+                    <p>Have questions or feedback? We'd love to hear from you!</p>
+                    <p class="mb-0">
+                        <strong>Email:</strong> team.aistudenthub@gmail.com <br>
+                        <strong>Team:</strong> The Power Pair
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">© 2026 AI Student Support System | Built for AI Innovation Challenge 2026</p>
+            <p class="mb-0"><small>Made with ❤️ by The Power Pair</small></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

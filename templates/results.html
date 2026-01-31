@@ -1,0 +1,480 @@
+<!-- templates/results.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results - AI Student Support</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary no-print">
+        <div class="container">
+            <a class="navbar-brand" href="/">🎓 AI Student Support</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/analyze">New Analysis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Results Section -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <h1 class="display-5" id="studentNameHeader">Performance Analysis</h1>
+                <p class="lead text-muted">Comprehensive AI-powered learning analysis and recommendations</p>
+            </div>
+
+            <!-- Overall Performance Card -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">📊 Overall Performance Summary</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <h2 id="averageMarks" class="text-primary">--</h2>
+                            <p class="text-muted">Average Marks</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h2 id="performanceCategory" class="text-success">--</h2>
+                            <p class="text-muted">Performance Level</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h2 id="totalSubjects" class="text-info">6</h2>
+                            <p class="text-muted">Subjects Analyzed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subject-wise Performance Chart -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">📈 Subject-wise Performance</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Learning Gaps Analysis -->
+            <div class="row mb-4">
+                <!-- Weak Areas -->
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100 weak-subject">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="mb-0">⚠️ Areas Needing Attention</h5>
+                        </div>
+                        <div class="card-body" id="weakAreasContainer">
+                            <p class="text-muted">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strong Areas -->
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100 strong-subject">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">⭐ Your Strengths</h5>
+                        </div>
+                        <div class="card-body" id="strongAreasContainer">
+                            <p class="text-muted">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Study Plan -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">📚 Personalized Study Plan</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Study Tips -->
+                    <div class="alert alert-info mb-4">
+                        <h6 class="alert-heading">💡 Study Tips for Success:</h6>
+                        <ul id="studyTipsList" class="mb-0">
+                            <li>Loading tips...</li>
+                        </ul>
+                    </div>
+
+                    <!-- Weekly Schedule -->
+                    <h5 class="mb-3">Weekly Study Schedule</h5>
+                    <div id="weeklyScheduleContainer">
+                        <p class="text-muted">Loading schedule...</p>
+                    </div>
+
+                    <!-- Time Allocation -->
+                    <div class="mt-4">
+                        <h5 class="mb-3">Subject-wise Time Allocation</h5>
+                        <div id="timeAllocationContainer">
+                            <p class="text-muted">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Career Recommendations -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">🎯 Career Direction Suggestions</h4>
+                </div>
+                <div class="card-body">
+                    <p class="mb-4">Based on your strengths, here are recommended career paths:</p>
+                    <div id="careerSuggestionsContainer">
+                        <p class="text-muted">Loading recommendations...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="text-center no-print">
+                <button onclick="window.print()" class="btn btn-primary btn-lg me-2">
+                    🖨️ Print Results
+                </button>
+                <button onclick="downloadPDF()" class="btn btn-success btn-lg me-2">
+                    📄 Download PDF
+                </button>
+                <a href="/analyze" class="btn btn-outline-primary btn-lg">
+                    🔄 New Analysis
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5 no-print">
+        <div class="container">
+            <p class="mb-0">© 2026 AI Student Support System | AI Innovation Challenge 2026</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Get results from sessionStorage
+        const results = JSON.parse(sessionStorage.getItem('analysisResults'));
+
+        if (!results) {
+            alert('No analysis data found. Please complete the analysis first.');
+            window.location.href = '/analyze';
+        }
+
+        // Display results
+        document.addEventListener('DOMContentLoaded', function() {
+            displayResults(results);
+        });
+
+        function displayResults(data) {
+            // Update header
+            document.getElementById('studentNameHeader').textContent = 
+                `${data.student_name}'s Performance Analysis`;
+
+            // Update overall performance
+            document.getElementById('averageMarks').textContent = 
+                data.gap_analysis.average.toFixed(1) + '%';
+            document.getElementById('performanceCategory').textContent = 
+                data.gap_analysis.overall_performance;
+
+            // Create performance chart
+            createPerformanceChart(data.subject_analysis);
+
+            // Display weak areas
+            displayWeakAreas(data.gap_analysis.weak_areas, data.gap_analysis.moderate_areas);
+
+            // Display strong areas
+            displayStrongAreas(data.gap_analysis.strong_areas);
+
+            // Display study plan
+            displayStudyPlan(data.study_plan);
+
+            // Display career suggestions
+            displayCareerSuggestions(data.career_suggestions);
+        }
+
+        function createPerformanceChart(subjectData) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            
+            const subjects = subjectData.map(s => s.subject);
+            const marks = subjectData.map(s => s.marks);
+            const colors = marks.map(m => {
+                if (m >= 70) return '#50C878';
+                if (m >= 50) return '#F39C12';
+                return '#E74C3C';
+            });
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: subjects,
+                    datasets: [{
+                        label: 'Marks',
+                        data: marks,
+                        backgroundColor: colors,
+                        borderColor: colors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Marks: ' + context.parsed.y + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function displayWeakAreas(weakAreas, moderateAreas) {
+            const container = document.getElementById('weakAreasContainer');
+            
+            if (weakAreas.length === 0 && moderateAreas.length === 0) {
+                container.innerHTML = '<p class="text-success"><strong>Great job! No significant weak areas identified.</strong></p>';
+                return;
+            }
+
+            let html = '';
+
+            // Critical/High priority weak areas
+            if (weakAreas.length > 0) {
+                html += '<h6 class="text-danger">High Priority:</h6>';
+                weakAreas.forEach(area => {
+                    html += `
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong>${area.subject}</strong>
+                                <span class="badge badge-critical">${area.severity}</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-danger" style="width: ${area.marks}%">
+                                    ${area.marks}%
+                                </div>
+                            </div>
+                            <small class="text-muted">Gap: ${area.gap.toFixed(1)} points below average</small>
+                        </div>
+                    `;
+                });
+            }
+
+            // Moderate areas
+            if (moderateAreas.length > 0) {
+                html += '<h6 class="text-warning mt-3">Moderate Priority:</h6>';
+                moderateAreas.forEach(area => {
+                    html += `
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong>${area.subject}</strong>
+                                <span class="badge badge-moderate">${area.severity}</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-warning" style="width: ${area.marks}%">
+                                    ${area.marks}%
+                                </div>
+                            </div>
+                            <small class="text-muted">Gap: ${area.gap.toFixed(1)} points below average</small>
+                        </div>
+                    `;
+                });
+            }
+
+            container.innerHTML = html;
+        }
+
+        function displayStrongAreas(strongAreas) {
+            const container = document.getElementById('strongAreasContainer');
+            
+            if (strongAreas.length === 0) {
+                container.innerHTML = '<p class="text-muted">Keep working to develop your strengths!</p>';
+                return;
+            }
+
+            let html = '';
+            strongAreas.forEach(area => {
+                html += `
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong>${area.subject}</strong>
+                            <span class="badge bg-success">Strong</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" style="width: ${area.marks}%">
+                                ${area.marks}%
+                            </div>
+                        </div>
+                        <small class="text-muted">+${area.advantage.toFixed(1)} points above average</small>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function displayStudyPlan(studyPlan) {
+            // Display study tips
+            const tipsList = document.getElementById('studyTipsList');
+            tipsList.innerHTML = '';
+            studyPlan.daily_tips.forEach(tip => {
+                tipsList.innerHTML += `<li>${tip}</li>`;
+            });
+
+            // Display weekly schedule
+            const scheduleContainer = document.getElementById('weeklyScheduleContainer');
+            let scheduleHTML = '<div class="row">';
+            
+            for (const [day, subjects] of Object.entries(studyPlan.weekly_schedule)) {
+                scheduleHTML += `
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <strong>${day}</strong>
+                            </div>
+                            <div class="card-body">
+                `;
+                
+                if (subjects.length === 0) {
+                    scheduleHTML += '<p class="text-muted mb-0">Rest day / Revision</p>';
+                } else {
+                    subjects.forEach(subject => {
+                        scheduleHTML += `
+                            <div class="mb-2">
+                                <strong>${subject.subject}</strong>
+                                <br>
+                                <small class="text-muted">
+                                    ⏱️ ${subject.duration} hours - ${subject.focus}
+                                </small>
+                            </div>
+                        `;
+                    });
+                }
+                
+                scheduleHTML += `
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            scheduleHTML += '</div>';
+            scheduleContainer.innerHTML = scheduleHTML;
+
+            // Display time allocation
+            const timeContainer = document.getElementById('timeAllocationContainer');
+            let timeHTML = '<div class="row">';
+            
+            for (const [subject, details] of Object.entries(studyPlan.time_allocation)) {
+                const priorityColor = details.priority === 'High' ? 'danger' : 
+                                     details.priority === 'Medium' ? 'warning' : 'info';
+                
+                timeHTML += `
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>${subject}</h6>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Daily Time:</span>
+                                    <strong>${details.hours_per_day} hours</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Priority:</span>
+                                    <span class="badge bg-${priorityColor}">${details.priority}</span>
+                                </div>
+                                <small class="text-muted">${details.focus}</small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            timeHTML += '</div>';
+            timeContainer.innerHTML = timeHTML;
+        }
+
+        function displayCareerSuggestions(careers) {
+            const container = document.getElementById('careerSuggestionsContainer');
+            
+            if (careers.length === 0) {
+                container.innerHTML = '<p class="text-muted">No specific career recommendations available.</p>';
+                return;
+            }
+
+            let html = '<div class="row">';
+            
+            careers.forEach((career, index) => {
+                const matchColor = career.match_score >= 80 ? 'success' : 
+                                  career.match_score >= 60 ? 'info' : 'secondary';
+                
+                html += `
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title mb-0">${index + 1}. ${career.career}</h5>
+                                    <span class="badge bg-${matchColor}">${career.match_score}% Match</span>
+                                </div>
+                                <p class="card-text">${career.description}</p>
+                                <div class="mb-2">
+                                    <strong>Growth Potential:</strong>
+                                    <br>
+                                    <small>${career.growth}</small>
+                                </div>
+                                <div class="mb-2">
+                                    <strong>Education Required:</strong>
+                                    <br>
+                                    <small>${career.education}</small>
+                                </div>
+                `;
+                
+                if (career.related_subjects && career.related_subjects.length > 0) {
+                    html += `
+                        <div>
+                            <strong>Related to your strengths in:</strong>
+                            <br>
+                            <small>${career.related_subjects.join(', ')}</small>
+                        </div>
+                    `;
+                }
+                
+                html += `
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function downloadPDF() {
+            // Simple implementation - use browser's print to PDF
+            alert('Please use your browser\'s "Print to PDF" feature:\n1. Click Print Results button\n2. Select "Save as PDF" as printer\n3. Click Save');
+            window.print();
+        }
+    </script>
+</body>
+</html>
